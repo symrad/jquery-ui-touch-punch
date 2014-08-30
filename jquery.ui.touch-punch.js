@@ -34,11 +34,17 @@
     if (event.originalEvent.touches.length > 1) {
       return;
     }
-
-    event.preventDefault();
+    
+    //http://stackoverflow.com/questions/12539072/jquery-ui-touch-punch-js-script-is-preventing-input-functionality-on-touch-devic
 
     var touch = event.originalEvent.changedTouches[0],
         simulatedEvent = document.createEvent('MouseEvents');
+    
+    if (touch.target.className.indexOf("notUseDrag") !== -1 || $(touch.target).is("input") || $(touch.target).is("textarea")) {
+    	event.stopPropagation();
+    } else {
+    	event.preventDefault();
+    }
     
     // Initialize the simulated mouse event using the touch event's coordinates
     simulatedEvent.initMouseEvent(
